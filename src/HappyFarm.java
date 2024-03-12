@@ -15,22 +15,35 @@ public class HappyFarm {
      * for a given crop type, as described in part (a).
      */
     public Plot getTopYield(String c) {
-        int highest = 0;
+        int count = 0;
+        int record = 0;
+        int ind = 0;
         int row = 0;
         int col = 0;
+        Plot[] temp = new Plot[farmPlots.length * farmPlots[0].length];
         for (int i = 0; i < farmPlots.length; i++) {
             for (int j = 0; j < farmPlots[0].length; j++) {
-                if (!(farmPlots[i][j].getCropType().equals(c))) {
-                    return null;
+                if (farmPlots[i][j].equals(c)) {
+                    temp[count] = farmPlots[i][j];
+                    count++;
                 }
             }
         }
-        for (int i = 0; i < farmPlots.length; i++) {
-            for (int j = 0; j < farmPlots[0].length; j++) {
-                if (farmPlots[i][j].getCropType().equals(c) && farmPlots[i][j].getCropYield() >= highest) {
-                    highest = farmPlots[i][j].getCropYield();
-                    row = i;
-                    col = j;
+        if (count == 0) {
+            return null;
+        } else {
+            for (int i = 0; i < temp.length; i++) {
+                if (temp[i].equals(c) && temp[i].getCropYield() > record) {
+                    record = temp[i].getCropYield();
+                    ind = i;
+                }
+            }
+            for (int i = 0; i < farmPlots.length; i++) {
+                for (int j = 0; j < farmPlots[0].length; j++) {
+                    if (farmPlots[i][j].getCropType().equals(temp[ind].getCropType()) && farmPlots[i][j].getCropYield() == record) {
+                        row = i;
+                        col = j;
+                    }
                 }
             }
         }
